@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Audiochan — список для архива
 // @namespace    local.audiochan.archive-list
-// @version      1.1.1
+// @version      1.2.0
 // @description  Плюс/минус для аудио, сценариев и интересных авторов; экспорт списка ссылок в TXT.
 // @match        https://audiochan.com/*
 // @match        https://www.audiochan.com/*
@@ -113,15 +113,30 @@
         refresh();
     }
     function closePanel() { panel.hidden = true; listButton.setAttribute('aria-expanded', 'false'); }
-    toggle.addEventListener('click', () => {
+    function setCurrent(value) {
         const url = normalize(location.href);
         if (!url) return refresh();
-        const value = !selected(url);
+        if (selected(url) === value) {
+            refresh();
+            notify(value ? 'Уже есть в списке' : 'Уже отсутствует в списке');
+            return;
+        }
         try {
             write(url, value, document.querySelector('h1')?.textContent?.trim() || document.title.replace(/\s*-\s*audiochan\s*$/i, ''));
             refresh(); notify(value ? (kind(url) === 'author' ? 'Автор отмечен как интересный' : 'Добавлено в список для архива') : 'Удалено из списка');
         } catch { notify('Не удалось сохранить. Проверьте хранилище менеджера userscript.'); }
-    });
+    }
+    toggle.addEventListener('click', () => setCurrent(!selected(normalize(location.href))));
+    window.addEventListener('keydown', event => {
+        if (!['NumpadAdd', 'NumpadSubtract'].includes(event.code)) return;
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.isComposing) return;
+        if (!normalize(location.href)) return;
+        if (event.composedPath().some(node => node instanceof HTMLElement &&
+            (node.matches('input,textarea,select,[role="textbox"],[role="combobox"]') || node.isContentEditable))) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (!event.repeat) setCurrent(event.code === 'NumpadAdd');
+    }, true);
     listButton.addEventListener('click', () => panel.hidden ? openPanel() : closePanel());
     $('.close').addEventListener('click', closePanel);
     root.addEventListener('keydown', event => { if (event.key === 'Escape') closePanel(); });
