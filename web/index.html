@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Audiochan Archive</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+  <aside class="sidebar">
+    <a href="#audio" class="brand"><span class="brand-icon">a<span>♪</span></span><span>audiochan<span class="brand-sub">ЛИЧНЫЙ АРХИВ</span></span></a>
+    <div class="nav-label">БИБЛИОТЕКА</div>
+    <nav aria-label="Разделы библиотеки">
+      <a href="#audio" data-nav="audio"><span class="nav-icon">♫</span>Аудио<span class="count" data-count="audio">0</span></a>
+      <a href="#script" data-nav="script"><span class="nav-icon">≡</span>Сценарии<span class="count" data-count="script">0</span></a>
+      <a href="#author" data-nav="author"><span class="nav-icon">◎</span>Авторы<span class="count" data-count="author">0</span></a>
+    </nav>
+    <div class="nav-label">СОХРАНЕНИЕ</div>
+    <nav><a href="#import" data-nav="import"><span class="nav-icon">＋</span>Добавить ссылки</a><a href="#queue" data-nav="queue"><span class="nav-icon">↓</span>Загрузки<span id="queue-count" class="count">0</span></a></nav>
+    <div class="sidebar-bottom"><div class="local-dot"></div><span>Ваша локальная копия<small>Файлы остаются у вас</small></span></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><span class="top-caption">Сохранить. Слушать. Возвращаться.</span><div id="activity" class="activity">Локальная библиотека</div><a class="button small" href="#import">＋ Добавить</a></header>
+    <main id="main" tabindex="-1"><div class="empty">Открываю библиотеку…</div></main>
+  </div>
+  <footer id="player" class="player" hidden>
+    <div class="player-track"><div class="playing-icon">♫</div><div><a id="player-title" href="#">Аудио</a><small id="player-author"></small></div></div>
+    <div class="player-controls"><button id="back15" class="icon-button" title="Назад на 15 секунд">↶ 15</button><audio id="audio" controls preload="metadata"></audio><button id="forward15" class="icon-button" title="Вперёд на 15 секунд">15 ↷</button></div>
+    <label class="speed-label"><span class="sr-only">Скорость воспроизведения</span><select id="speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label><button id="close-player" class="icon-button" title="Закрыть плеер">×</button>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body></html>
